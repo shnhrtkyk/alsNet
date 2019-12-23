@@ -205,7 +205,7 @@ def pointnet_fp_module(xyz1, xyz2, points1, points2, mlp, is_training, bn_decay,
     with tf.variable_scope(scope) as sc, tf.device('/cpu:0'):
         dist, idx = three_nn(xyz1, xyz2)
         dist = tf.maximum(dist, 1e-10)
-        norm = tf.reduce_sum((1.0/dist),axis=2,keepdims=True)
+        norm = tf.reduce_sum((1.0/dist),axis=2,keep_dims=True)
         norm = tf.tile(norm,[1,1,3])
         weight = (1.0/dist) / norm
         interpolated_points = three_interpolate(points2, idx, weight)
