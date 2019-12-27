@@ -28,6 +28,7 @@ class Dataset():
         self._waveform = np.load(waveformname)
         self._xyz = np.vstack([file_h.x, file_h.y, file_h.z]).transpose()
         self._classes = file_h.classification 
+        lbl = np.unique(self._classes[self._classes >= 0])
         points = file_h.points['point']
         attr_names = [a for a in points.dtype.names] + Dataset.ATTR_EXTRA_LIST
         self._features = np.array([getattr(file_h, name) for name in attr_names
