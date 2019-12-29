@@ -70,7 +70,7 @@ class Dataset():
     def points_and_features(self):
         if self._xyz is None:
             self.load_data()
-        ret_val = np.hstack((self._xyz, self._features))
+        ret_val = np.hstack((self._xyz, self._waveform))
         if self.normalize:
             normalize(ret_val)
         return ret_val
@@ -142,15 +142,54 @@ class Dataset():
         outfile.y = ally
         outfile.z = allz
 
-        for featid in range(points_and_features.shape[1]-3):
-            try:
-                data = points_and_features[:, 3]
-                if names[featid] in ['num_returns', 'return_num']:  # hack to treat int-values
-                    data = data.astype('int8')
-                setattr(outfile, names[featid], data)
-            except Exception as e:
-                logging.warning("Could not save attribute %s to file %s: \n%s" % (names[featid], path, e))
-                #raise
+        
+
+        if probs is not None:
+            for classid in range(probs.shape[1]):
+                setattr(outfile, "prob_class%02d" % classid, probs[:, classid])
+
+        if labels is not None:
+            outfile.classification = labels
+        if new_classes is not None:
+            outfile.estim_class = new_classes
+        if labels is not None and new_classes is not None:
+            outfile.class_correct = np.equal(labels, new_classes)*-1 + 6  #  so that equal =5 --> green (veg)
+            #  and not equal =6 --> red (building)
+
+        outfile.close()
+    
+
+    @staticmethod
+    def SaveWithWaves(path, points_and_features, names=None, labels=None, new_classes=None, probs=None):
+        hdr = laspy.header.Header()
+        pathwave = path.replace('las', 'txt')
+        np.savetxt(pathwave, points_and_features[:,3:])
+        #print((points_and_features[:,3:].shape))
+        outfile = laspy.file.File(path, mode="w", header=hdr)
+        if new_classes is not None:
+            outfile.define_new_dimension(name="estim_class", data_type=5, description="estimated class")
+        if labels is not None and new_classes is not None:
+            outfile.define_new_dimension(name="class_correct", data_type=5, description="correctness of estimated class")
+        if probs is not None:
+            for classid in range(probs.shape[1]):
+                outfile.define_new_dimension(name="prob_class%02d" % classid, data_type=9, description="p of estimated class %02d"%classid)
+
+        allx = points_and_features[:, 0]
+        ally = points_and_features[:, 1]
+        allz = points_and_features[:, 2]
+
+        xmin = np.floor(np.min(allx))
+        ymin = np.floor(np.min(ally))
+        zmin = np.floor(np.min(allz))
+
+        outfile.header.offset = [xmin, ymin, zmin]
+        outfile.header.scale = [0.001, 0.001, 0.001]
+
+        outfile.x = allx
+        outfile.y = ally
+        outfile.z = allz
+
+
 
         if probs is not None:
             for classid in range(probs.shape[1]):
