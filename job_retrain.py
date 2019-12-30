@@ -33,6 +33,6 @@ pip3 install --user scikit-learn
 pip3 install --user matplotlib
 
 
-python ./alsNet/alsNetRunner5.py --inList ./data/train_patch/stats.csv --threshold 20 --minBuild 0 --learningRate 0.0001 --outDir ./logs_models/ --archFile archs.arch4 --continueModel ./logs_models/models/model_1_13_271/alsNet.ckpt
+python ./alsNet/alsNetRunner5.py --inList ./data/train_patch/stats.csv --threshold 20 --minBuild 0 --learningRate 0.0001 --outDir ./logs_models/ --archFile archs.arch4 --continueModel ./logs_models/models/model_13_271/alsNet.ckpt
 
 
