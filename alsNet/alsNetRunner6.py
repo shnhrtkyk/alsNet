@@ -1,7 +1,7 @@
 import os, sys
 import numpy as np
 import argparse
-from alsNetRefactored import AlsNetContainer, simple_loss, fp_high_loss
+from alsNetRefactored_fw import AlsNetContainer, simple_loss, fp_high_loss
 from alsNetLogger2 import Logger
 from dataset_wave import Dataset
 import importlib
@@ -79,7 +79,7 @@ def main(args):
     print("%s datasets loaded." % len(datasets_th))
     sys.stdout.flush()
 
-    inst = AlsNetContainer(num_feat=163, num_classes=6, num_points=50000, output_base=args.outDir, score_sample=10,
+    inst = AlsNetContainer(num_feat=160, num_classes=6, num_points=50000, output_base=args.outDir, score_sample=10,
                            arch=arch,
                            learning_rate=lr,
                            dropout=0.55,
@@ -96,6 +96,7 @@ def main(args):
         for i in range(len(datasets_th)//train_size):
             if i > 0:
                 test_ds = datasets_th[i*train_size]
+                print(test_ds.file)
                 inst.test_single(test_ds,
                                  save_to=os.path.join(args.outDir, os.path.basename(test_ds.file).replace(".la", "_test.la")),
                                  save_prob=True)
@@ -130,6 +131,6 @@ if __name__ == '__main__':
     parser.add_argument('--normalize', default=1, type=int,
                         help='normalize fields and coordinates [default: 1][1/0]')
     # parser.add_argument('--testList', help='list with files to test on')
-    # parser.add_argument('--gpuID', default=None, help='which GPU to run on (default: CPU only)')
+    parser.add_argument('--gpuID', default=None, help='which GPU to run on (default: CPU only)')
     args = parser.parse_args()
     main(args)
