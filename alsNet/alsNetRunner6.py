@@ -93,7 +93,7 @@ def main(args):
                   training_files=datasets_th)
 
     for j in range(args.multiTrain):
-        for i in range(len(datasets_th)//train_size):
+        for i in range((len(datasets_th)//train_size)-1):
             if i > 0:
                 test_ds = datasets_th[i*train_size]
                 print(test_ds.file)
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     parser.add_argument('--outDir', required=True, help='directory to write html log to')
     # parser.add_argument('--multiclass', default=True, type=bool, help='label into multiple classes ' +
     #                                                                  '(not only ground/nonground) [default: True]')
-    parser.add_argument('--multiTrain', default=1, type=int,
+    parser.add_argument('--multiTrain', default=100, type=int,
                        help='how often to feed the whole training dataset [default: 1]')
     parser.add_argument('--trainSize', default=1, type=int,
                        help='how many plots to train at once [default: 1]')
