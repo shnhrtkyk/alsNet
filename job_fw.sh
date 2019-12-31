@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#$ -c#!/bin/sh
+#$ #!/bin/sh
 
 #$ -cwd
 #$ -l q_node=1
