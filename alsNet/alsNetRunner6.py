@@ -38,6 +38,15 @@ arch =[
         'reverse_mlp': [256,256]
     },
     {
+        'npoint': 1024,
+        'radius': 9,
+        'nsample': 16,
+        'mlp': [128, 256, 256],
+        'pooling': 'max',
+        'mlp2': None,
+        'reverse_mlp': [256,256]
+    },
+    {
         'npoint': 512,
         'radius': 15,
         'nsample': 32,
