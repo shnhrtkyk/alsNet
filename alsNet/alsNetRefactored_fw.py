@@ -15,7 +15,7 @@ sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, '../utils'))
 
 import tf_util
-from pointnet_util import pointnet_sa_module, pointnet_fp_module
+from pointnet_util_fw import pointnet_sa_module, pointnet_fp_module
 
 
 
