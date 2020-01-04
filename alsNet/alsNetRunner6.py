@@ -135,7 +135,7 @@ if __name__ == '__main__':
                        help='architecture file to import [default: default architecture]')
     parser.add_argument('--continueModel', default=None, type=str,
                         help='continue training an existing model [default: start new model]')
-    parser.add_argument('--lossFn', default='simple', type=str,
+    parser.add_argument('--lossFn', default='fp_high', type=str,
                         help='loss function to use [default: simple][simple/fp_high]')
     parser.add_argument('--normalize', default=1, type=int,
                         help='normalize fields and coordinates [default: 1][1/0]')

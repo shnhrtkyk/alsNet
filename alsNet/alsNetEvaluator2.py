@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG,
 def main(args):
     arch = importlib.import_module(args.arch).arch
     normalize = args.normalize
-    model = AlsNetContainer(num_feat=3, num_classes=30, num_points=200000, output_base=args.outDir, arch=arch)
+    model = AlsNetContainer(num_feat=160, num_classes=6, num_points=50000, output_base=args.outDir, arch=arch)
     logging.info("Loading pretrained model %s" % args.model)
     model.load_model(args.model)
     datasets = []
