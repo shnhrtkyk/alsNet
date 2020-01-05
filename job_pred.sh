@@ -32,6 +32,7 @@ pip3 install --user matplotlib
 
 python ./alsNet/alsNetEvaluator.py --inFile "/gs/hs0/tga-ma2okalab/shino/data/test_fw_patch/*.las" --model ./logs_models/models//model_12_271/alsNet.ckpt --arch archs.arch4 --outDir ./prediction/
 python ./alsNet/alsNetEvaluator2.py --inFile "/gs/hs0/tga-ma2okalab/shino/data/test_fw_patch/*.las" --model ./logs_models_fw/models/model_36_60/alsNet.ckpt --arch archs.arch4 --outDir ./prediction_fw/
+python ./alsNet/alsNetEvaluator2.py --inFile "/gs/hs0/tga-ma2okalab/shino/data/test_fw_patch/*.las" --model ./logs_models_fw_fp_high/models/model_36_60/alsNet.ckpt --arch archs.arch4 --outDir ./prediction_fw_fp_high/
 
 
 
