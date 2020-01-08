@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s [%(levelname)s]: %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 
-MAX_CLASSES = 30
+MAX_CLASSES = 6
 
 def main(in_files, ref_file, out_file, write_probs=True):
     input_files = []
@@ -34,7 +34,7 @@ def main(in_files, ref_file, out_file, write_probs=True):
     logging.info("Loading reference dataset")
     ref_ds = Dataset(ref_file)
     ref_points = ref_ds._xyz
-    out_labels = ref_ds.labels
+    out_labels = ref_ds.labels - 1
 
     prob_sums = np.zeros((ref_points.shape[0], MAX_CLASSES))
     prob_counts = np.zeros((ref_points.shape[0],))
@@ -128,7 +128,7 @@ def main(in_files, ref_file, out_file, write_probs=True):
     #pre_acc = np.count_nonzero(overall_points[:, estim_col] == overall_points[:, -1]) / overall_points.shape[0]
     pre_acc = 0
     post_acc = np.count_nonzero(new_max_class == out_labels) / len(out_points)
-    post_cm = metrics.confusion_matrix(out_labels, new_max_class, labels=range(17))
+    post_cm = metrics.confusion_matrix(out_labels, new_max_class, labels=range(6))
     post_prec = metrics.precision_score(out_labels, new_max_class, average=None)
     post_recall = metrics.recall_score(out_labels, new_max_class, average=None)
     post_f1 = metrics.f1_score(out_labels, new_max_class, average=None)
