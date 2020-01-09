@@ -140,9 +140,9 @@ def main(in_files, ref_file, out_file, write_probs=True):
     
     final = np.zeros((ref_points.shape[0], 5))
     final[:, :3] = ref_points[:, :3]
-    new_max_class = np.where(new_max_class == 2, 6, new_max_class)
-    new_max_class = np.where(new_max_class == 0, 2, new_max_class)
-    new_max_class = np.where(new_max_class == 1, 6, new_max_class)
+    #new_max_class = np.where(new_max_class == 2, 6, new_max_class)
+    #new_max_class = np.where(new_max_class == 0, 2, new_max_class)
+    #new_max_class = np.where(new_max_class == 1, 6, new_max_class)
     final[:, 3] = new_max_class
     final[:, 4] = out_labels
     # save mearged data
