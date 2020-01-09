@@ -137,6 +137,18 @@ def main(in_files, ref_file, out_file, write_probs=True):
     np.savetxt(out_file + '_recall.txt', post_recall, fmt='%.4f')
     np.savetxt(out_file + '_f1.txt', post_f1, fmt='%.4f')
     logging.info("Finished. Pre-acc: %.3f | Post-acc: %.3f" % (pre_acc, post_acc))
+    
+    final = np.zeros((ref_points.shape[0], 5))
+    final[:, :3] = ref_points[:, :3]
+    new_max_class = np.where(new_max_class == 2, 6, new_max_class)
+    new_max_class = np.where(new_max_class == 0, 2, new_max_class)
+    new_max_class = np.where(new_max_class == 1, 6, new_max_class)
+    final[:, 3] = new_max_class
+    final[:, 4] = out_labels
+    # save mearged data
+    np.savetxt(out_file + '_pred.txt', final)
+
+
 
 
 

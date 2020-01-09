@@ -13,3 +13,7 @@ model.ckpt.*
 #
 *.pyc
 .DS_Store
+*.las
+*.xyz
+*.csv
+*.txt
