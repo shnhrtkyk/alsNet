@@ -25,8 +25,15 @@ def simple_loss(labels, logits):
 
 
 def fp_high_loss(labels, logits, factor=100):
-    weights = [tf.where(tf.logical_and(labels != 2, tf.argmax(logits) == 2), factor, 1)]
-    weights = [tf.where(tf.logical_or(labels == 0, labels == 1), 1, factor)]
+    #weights = [tf.where(tf.logical_and(labels != 2, tf.argmax(logits) == 2), factor, 1)]
+
+    weights = tf.where(labels == 0, 0, factor)
+    weights = tf.where(labels == 1, 1, weights)
+    weights = tf.where(labels == 2, 2, weights)
+    weights = tf.where(labels == 3, 20, weights)
+    weights = tf.where(labels == 4, 20, weights)
+    weights = tf.where(labels == 5, 20, weights)
+
     classify_loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits, scope='loss', weights=weights)
     return classify_loss
 
