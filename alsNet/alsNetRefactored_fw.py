@@ -15,7 +15,7 @@ sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, '../utils'))
 
 import tf_util
-from pointnet_util_fw import pointnet_sa_module, pointnet_fp_module
+from pointnet_util import pointnet_sa_module, pointnet_fp_module
 
 
 
@@ -24,8 +24,9 @@ def simple_loss(labels, logits):
     return tf.losses.sparse_softmax_cross_entropy(labels, logits, scope='loss')
 
 
-def fp_high_loss(labels, logits, factor=10):
-    weights = tf.where(tf.logical_and(labels != 2, tf.argmax(logits) == 2), factor, 1)
+def fp_high_loss(labels, logits, factor=100):
+    weights = [tf.where(tf.logical_and(labels != 2, tf.argmax(logits) == 2), factor, 1)]
+    weights = [tf.where(tf.logical_or(labels == 0, labels == 1), 1, factor)]
     classify_loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits, scope='loss', weights=weights)
     return classify_loss
 
