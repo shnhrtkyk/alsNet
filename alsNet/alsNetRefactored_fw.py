@@ -256,12 +256,12 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
             points_in = np.expand_dims(points_in, 0)
             softmax, feat, feat_in, xyz = sess.run((self._softmax_op, self._ln_feat, self._ln_feat_in, self._ln_xyz), feed_dict={self._points_in: points_in,
                                                     self._is_training: False})
-            if self.savefiles:
-                for level, x in enumerate(xyz):
-                    print(xyz[level][0], feat[level][0])
-                    print(xyz[level][0].shape, feat[level][0].shape)
-                    np.savetxt(os.path.join(self.output_dir, 'xyz%i.xyz' % level), np.hstack((xyz[level][0], feat[level][0])))
-                    np.savetxt(os.path.join(self.output_dir, 'xyz%i_in.xyz' % level), np.hstack((xyz[level][0], feat_in[level][0])))
+            #if self.savefiles:
+            #    for level, x in enumerate(xyz):
+            #        print(xyz[level][0], feat[level][0])
+            #        print(xyz[level][0].shape, feat[level][0].shape)
+            #        np.savetxt(os.path.join(self.output_dir, 'xyz%i.xyz' % level), np.hstack((xyz[level][0], feat[level][0])))
+            #        np.savetxt(os.path.join(self.output_dir, 'xyz%i_in.xyz' % level), np.hstack((xyz[level][0], feat_in[level][0])))
             return softmax
 
     def predict_one_epoch(self, points_in):
