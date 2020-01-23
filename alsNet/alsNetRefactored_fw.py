@@ -27,7 +27,7 @@ def simple_loss(labels, logits):
 def fp_high_loss(labels, logits, factor=100):
     #weights = [tf.where(tf.logical_and(labels != 2, tf.argmax(logits) == 2), factor, 1)]
 
-    weights = tf.where(labels == 0, 0, factor)
+    weights = tf.where(labels == 0, 1, 1)
     weights = tf.where(labels == 1, 1, weights)
     weights = tf.where(labels == 2, 2, weights)
     weights = tf.where(labels == 3, 20, weights)
