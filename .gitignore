@@ -18,3 +18,4 @@ model.ckpt.*
 *.csv
 *.txt
 alsNet/.DS_Store
+alsNet/.DS_Store
