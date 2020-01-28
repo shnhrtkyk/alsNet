@@ -153,7 +153,7 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
             
             for depth, step_dict in enumerate(self.arch2):  # set abstraction
                 xyz, feat = self._pointnet_sa_g(step_dict,
-                                              ln_xyz[depth], ln_feat[depth],
+                                              ln_xyz_g[depth], ln_feat_g[depth],
                                               is_training,
                                               'sa_layer_g_%d' % (depth + 1))
                 ln_xyz_g.append(xyz)
