@@ -17,3 +17,4 @@ model.ckpt.*
 *.xyz
 *.csv
 *.txt
+alsNet/.DS_Store
