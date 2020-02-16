@@ -15,7 +15,7 @@ sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, '../utils'))
 
 import tf_util
-from pointnet_util import pointnet_sa_module, pointnet_fp_module
+from pointnet_util import pointnet_sa_module, pointnet_fp_module, pointnet_sa_module_1DCNN
 
 
 
@@ -162,6 +162,28 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
             return net
 
     def _pointnet_sa(self, arch_dict, xyz, feat, is_training, scope=""):
+        """
+        PointNet Set Abstraction layer (Qi et al. 2017)
+        :param arch_dict: dictionary describing the architecture of this layer
+        :param xyz: Tensor (batch x num_points x 3). coordinate triplets
+        :param feat: Tensor (batch x num_points x num_feat). features for each point
+        :param scope: name for the layers
+        :return: xyz and features of the superpoint layer
+        """
+        li_xyz, li_feats, li_indices = pointnet_sa_module(xyz, feat,
+                                                          npoint=arch_dict['npoint'],
+                                                          radius=arch_dict['radius'],
+                                                          nsample=arch_dict['nsample'],
+                                                          mlp=arch_dict['mlp'],
+                                                          pooling=arch_dict['pooling'],
+                                                          mlp2=arch_dict['mlp2'],
+                                                          group_all=False,
+                                                          is_training=is_training,
+                                                          bn_decay=None,
+                                                          scope=scope)
+        return li_xyz, li_feats
+
+    def _pointnet_sa_1DCNN(self, arch_dict, xyz, feat, is_training, scope=""):
         """
         PointNet Set Abstraction layer (Qi et al. 2017)
         :param arch_dict: dictionary describing the architecture of this layer

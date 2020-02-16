@@ -150,6 +150,8 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
                 ln_xyz.append(xyz)
                 ln_feat.append(feat)
                 ln_feat_in.append(feat)
+
+            grobe1 = tf.reduce_max(ln_feat[len(self.arch)], axis=[2], keepdims=True)
             
             for depth, step_dict in enumerate(self.arch2):  # set abstraction
                 xyz, feat = self._pointnet_sa_g(step_dict,
@@ -159,12 +161,14 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
                 ln_xyz_g.append(xyz)
                 ln_feat_g.append(feat)
                 ln_feat_in_g.append(feat)
+
+            grobe2 = tf.reduce_max(ln_feat_g[len(self.arch)], axis=[2], keepdims=True)
             
             #concate
             ln_feat[len(self.arch)] =  tf.concat([ln_feat[len(self.arch)], ln_feat_g[len(self.arch)]], axis=1)
 
             for depth, step_dict in enumerate(reversed(self.arch)):  # feature propagation
-                depth = len(self.arch) - depth
+                depth = len(self.arch) - depthz
                 feat = self._pointnet_fp(step_dict,
                                          ln_xyz[depth-1], ln_xyz[depth],
                                          ln_feat[depth-1], ln_feat[depth],
