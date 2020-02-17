@@ -1,7 +1,7 @@
 import glob
 
 from argparse import ArgumentParser
-from alsNetRefactored import AlsNetContainer
+from alsNetRefactored_fw import AlsNetContainer
 from dataset_wave import Dataset
 import numpy as np
 import os, sys
@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG,
 def main(args):
     arch = importlib.import_module(args.arch).arch
     normalize = args.normalize
-    model = AlsNetContainer(num_feat=160, num_classes=6, num_points=50000, output_base=args.outDir, arch=arch)
+    model = AlsNetContainer(num_feat=160, num_classes=6, num_points=args.points, output_base=args.outDir, arch=arch)
     logging.info("Loading pretrained model %s" % args.model)
     model.load_model(args.model)
     datasets = []
@@ -61,6 +61,8 @@ if __name__ == '__main__':
     parser.add_argument('--arch', required=True, help='python architecture file')
     parser.add_argument('--outDir', required=True, help='log and output directory')
     parser.add_argument('--normalize', default=1, type=int,
+                        help='normalize fields and coordinates [default: 1][1/0]')
+    parser.add_argument('--points', default=50000, type=int,
                         help='normalize fields and coordinates [default: 1][1/0]')
     args = parser.parse_args()
 

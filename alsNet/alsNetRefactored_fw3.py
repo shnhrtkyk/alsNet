@@ -170,7 +170,7 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
         :param scope: name for the layers
         :return: xyz and features of the superpoint layer
         """
-        li_xyz, li_feats, li_indices = pointnet_sa_module(xyz, feat,
+        li_xyz, li_feats, li_indices = pointnet_sa_module_2D(xyz, feat,
                                                           npoint=arch_dict['npoint'],
                                                           radius=arch_dict['radius'],
                                                           nsample=arch_dict['nsample'],
@@ -183,27 +183,7 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
                                                           scope=scope)
         return li_xyz, li_feats
 
-    def _pointnet_sa_1DCNN(self, arch_dict, xyz, feat, is_training, scope=""):
-        """
-        PointNet Set Abstraction layer (Qi et al. 2017)
-        :param arch_dict: dictionary describing the architecture of this layer
-        :param xyz: Tensor (batch x num_points x 3). coordinate triplets
-        :param feat: Tensor (batch x num_points x num_feat). features for each point
-        :param scope: name for the layers
-        :return: xyz and features of the superpoint layer
-        """
-        li_xyz, li_feats, li_indices = pointnet_sa_module(xyz, feat,
-                                                          npoint=arch_dict['npoint'],
-                                                          radius=arch_dict['radius'],
-                                                          nsample=arch_dict['nsample'],
-                                                          mlp=arch_dict['mlp'],
-                                                          pooling=arch_dict['pooling'],
-                                                          mlp2=arch_dict['mlp2'],
-                                                          group_all=False,
-                                                          is_training=is_training,
-                                                          bn_decay=None,
-                                                          scope=scope)
-        return li_xyz, li_feats
+
 
     def _pointnet_fp(self, arch_dict, xyz_to, xyz_from, feat_to, feat_from, is_training, scope=""):
         """
