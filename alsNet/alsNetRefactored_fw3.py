@@ -300,10 +300,10 @@ class AlsNetContainer(BaseEstimator, ClassifierMixin):
             ds = Dataset(file_in)
         probs = self.predict_probability(ds.points_and_features)
         new_classes = np.argmax(probs, axis=2)
-        #if save_to:
-        #    Dataset.Save(save_to, ds.points_and_features,
-        #                 ds.names, ds.labels, new_classes[0],
-        #                 probs[0] if save_prob else None)
+        if save_to:
+            Dataset.Save(save_to, ds.points_and_features,
+                         ds.names, ds.labels, new_classes[0],
+                         probs[0] if save_prob else None)
 
         cm = confusion_matrix(ds.labels, new_classes[0], range(self.num_classes))
         self.eval_history.add_history_step(cm, self._train_points_seen, 0)

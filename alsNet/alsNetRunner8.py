@@ -107,7 +107,7 @@ def main(args):
                 test_ds = datasets_th[i*train_size]
                 print(test_ds.file)
                 inst.test_single(test_ds,
-                                 save_to=os.path.join(args.outDir, os.path.basename(test_ds.file).replace(".la", "_test.la")),
+                                 save_to=None,
                                  save_prob=False)
             print("Training datasets %s to %s (%s total)" % (i*train_size,
                                                              min((i+1)*train_size, len(datasets_th)),
