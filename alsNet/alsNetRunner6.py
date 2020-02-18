@@ -75,8 +75,8 @@ def main(args):
         line = line.decode('utf-8')
         linespl = line.split(",")
         dataset_path = os.path.join(os.path.dirname(inlist), linespl[0])
-        if float(linespl[1]) < threshold and float(linespl[6]) > args.minBuild:
-            datasets.append(dataset_path)
+        #f float(linespl[1]) < threshold and float(linespl[6]) > args.minBuild:
+        datasets.append(dataset_path)
         all_ds.append(dataset_path)
 
     np.random.shuffle(datasets)
