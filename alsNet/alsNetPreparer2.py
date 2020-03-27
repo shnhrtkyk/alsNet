@@ -4,7 +4,7 @@ import csv
 import glob
 import os
 import sys
-import dataset_wave as dataset
+import waveloader as dataset
 
 def main(in_files, density, kNN, out_folder, thinFactor):
     spacing = np.sqrt(kNN*thinFactor/(np.pi*density)) * np.sqrt(2)/2 * 0.95  # 5% MARGIN
