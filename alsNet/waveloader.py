@@ -25,9 +25,9 @@ class Dataset():
     def load_data(self):
         file_h = laspy.file.File(self.file, mode='r')
         waveformname = self.file.replace('las', 'txt')
-        self._waveform = np.loadtxt(waveformname,delimiter=" ", skiprows=1,  usecols = (range(0, 160)))
+        self._waveform = np.loadtxt(waveformname,delimiter=" ", skiprows=0,  usecols = (range(0, 160)))
         self._xyz = np.vstack([file_h.x, file_h.y, file_h.z]).transpose()
-        self._classes = file_h.classification - 1
+        self._classes = file_h.classification 
         lbl = np.unique(self._classes[self._classes >= 0])
         print(lbl)
         points = file_h.points['point']
@@ -57,7 +57,7 @@ class Dataset():
     def labels(self):
         if self._xyz is None:
             self.load_data()
-        ret_val = self._classes if self.multiclass else (self._classes != 2).astype('int8') + 2
+        ret_val = self._classes #if self.multiclass else (self._classes != 2).astype('int8') + 2
         lbl = np.unique(ret_val[ret_val >= 0])
         print(lbl)
         return ret_val

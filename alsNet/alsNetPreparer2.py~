@@ -4,7 +4,7 @@ import csv
 import glob
 import os
 import sys
-import dataset
+import waveloader as dataset
 
 def main(in_files, density, kNN, out_folder, thinFactor):
     spacing = np.sqrt(kNN*thinFactor/(np.pi*density)) * np.sqrt(2)/2 * 0.95  # 5% MARGIN
@@ -27,23 +27,23 @@ def main(in_files, density, kNN, out_folder, thinFactor):
                 out_path = os.path.join(out_folder, out_name)
                 if points_and_features is not None:
                     stats = dataset.ChunkedDataset.chunkStatistics(labels[0], 10)
-                    rest = 1 - (stats['relative'][2] +
+                    rest = 1 - (stats['relative'][0] +
+                                stats['relative'][1] +
+                                stats['relative'][2] +
                                 stats['relative'][3] +
                                 stats['relative'][4] +
-                                stats['relative'][5] +
-                                stats['relative'][6] +
-                                stats['relative'][9])
-                    perc = [stats['relative'][2],
+                                stats['relative'][5])
+                    perc = [stats['relative'][0],
+                            stats['relative'][1],
+                            stats['relative'][2],
                             stats['relative'][3],
                             stats['relative'][4],
                             stats['relative'][5],
-                            stats['relative'][6],
-                            stats['relative'][9],
                             rest]
                     stddev = np.std(perc) * 100
                     list_entry = [out_name, "%.3f" % stddev, *["%.3f" % p for p in perc]]
                     statlist.append(list_entry)
-                    dataset.Dataset.Save(out_path, points_and_features[0][idx_to_use], names,
+                    dataset.Dataset.SaveWithWaves(out_path, points_and_features[0][idx_to_use], names,
                                          labels=labels[0][idx_to_use], new_classes=None)
                 else:  # no more data
                     break
@@ -60,7 +60,7 @@ if __name__ == '__main__':
                         help='input files (wildcard supported)',
                         action='append')
     parser.add_argument('--density', type=float, required=True, help='average point density')
-    parser.add_argument('--kNN', default=200000, type=int, required=True, help='how many points per batch [default: 200000]')
+    parser.add_argument('--kNN', default=50000, type=int, required=True, help='how many points per batch [default: 200000]')
     parser.add_argument('--outFolder', required=True, help='where to write output files and statistics to')
     parser.add_argument('--thinFactor', type=float, default=1., help='factor to thin out points by (2=use half of the points)')
     args = parser.parse_args()
